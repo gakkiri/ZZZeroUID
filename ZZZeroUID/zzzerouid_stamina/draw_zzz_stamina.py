@@ -46,9 +46,11 @@ async def draw_stamina_img(bot: Bot, ev: Event):
         await bot.send(BIND_UID_HINT)
     else:
         img_list: List[Image.Image] = []
+        has_error = False
         _list = [await _draw_stamina_img(uid, ev) for uid in uids]
         for i in _list:
             if isinstance(i, str):
+                has_error = True
                 await bot.send(i)
             else:
                 img_list.append(i)
@@ -59,7 +61,7 @@ async def draw_stamina_img(bot: Bot, ev: Event):
                 res.paste(img, (index * _x, 0), img)
             res = await convert_img(res)
             await bot.send(res)
-        else:
+        elif not has_error:
             await bot.send("你当前绑定的UID存在错误, 请尝试解决...")
 
 

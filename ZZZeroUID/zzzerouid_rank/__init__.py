@@ -125,6 +125,77 @@ async def _send_group_rank(bot: Bot, ev: Event, rank_type: str):
     await bot.send(img)
 
 
+async def _switch_user_rank_by_msg(bot: Bot, ev: Event, msg: str):
+    msg = msg.strip()
+    if "排名" not in msg:
+        return
+    if msg.startswith(("开启群", "开启群内", "关闭群", "关闭群内")):
+        return
+
+    group_id = _get_group_id(ev)
+    if not group_id:
+        return await bot.send("请在群聊中使用该命令！")
+
+    action = _parse_switch_action(msg)
+    if action is None:
+        return await bot.send('请输入"显示"或"隐藏"来设置是否显示个人排名')
+
+    rank_type = _parse_rank_type(msg, default="ALL")
+    if rank_type is None:
+        return
+
+    uid = await GsBind.get_uid_by_game(ev.user_id, ev.bot_id, "zzz")
+    if not uid:
+        return await bot.send(BIND_UID_HINT)
+
+    set_user_visible(group_id, uid, rank_type, action)
+    action_name = "显示" if action else "隐藏"
+    await bot.send(
+        f"绝区零 UID: {uid}，{RANK_INFO[rank_type]['display']}排名功能已设置为: {action_name}"
+    )
+
+
+async def _switch_group_rank_by_msg(bot: Bot, ev: Event, msg: str):
+    msg = msg.strip()
+    if "排名" not in msg:
+        return
+
+    group_id = _get_group_id(ev)
+    if not group_id:
+        return await bot.send("请在群聊中使用该命令！")
+
+    action = _parse_switch_action(msg)
+    if action is None:
+        return await bot.send('请输入"开启"或"关闭"来设置群内排名功能')
+
+    rank_type = _parse_rank_type(msg, default="ALL")
+    if rank_type is None:
+        return
+
+    set_group_enable(group_id, rank_type, action)
+    action_name = "开启" if action else "关闭"
+    await bot.send(
+        f"当前群{RANK_INFO[rank_type]['display']}排名功能已设置为: {action_name}"
+    )
+
+
+async def _reset_group_rank_by_msg(bot: Bot, ev: Event, msg: str):
+    msg = msg.strip()
+    if "排名" not in msg:
+        return
+
+    group_id = _get_group_id(ev)
+    if not group_id:
+        return await bot.send("请在群聊中使用该命令！")
+
+    rank_type = _parse_rank_type(msg, default="ALL")
+    if rank_type is None:
+        return
+
+    reset_records(group_id, rank_type)
+    await bot.send(f"清除{RANK_INFO[rank_type]['display']}排名成功！")
+
+
 @sv_zzz_rank.on_fullmatch(
     (
         "式舆防卫战排名",
@@ -183,73 +254,71 @@ async def send_void_rank(bot: Bot, ev: Event):
     ),
 )
 async def switch_user_rank(bot: Bot, ev: Event):
-    msg = f"{ev.command}{ev.text}".strip()
-    if "排名" not in msg:
-        return
-    if msg.startswith(("开启群", "开启群内", "关闭群", "关闭群内")):
-        return
+    await _switch_user_rank_by_msg(bot, ev, f"{ev.command}{ev.text}")
 
-    group_id = _get_group_id(ev)
-    if not group_id:
-        return await bot.send("请在群聊中使用该命令！")
 
-    action = _parse_switch_action(msg)
-    if action is None:
-        return await bot.send('请输入"显示"或"隐藏"来设置是否显示个人排名')
-
-    rank_type = _parse_rank_type(msg, default="ALL")
-    if rank_type is None:
-        return
-
-    uid = await GsBind.get_uid_by_game(ev.user_id, ev.bot_id, "zzz")
-    if not uid:
-        return await bot.send(BIND_UID_HINT)
-
-    set_user_visible(group_id, uid, rank_type, action)
-    action_name = "显示" if action else "隐藏"
-    await bot.send(
-        f"绝区零 UID: {uid}，{RANK_INFO[rank_type]['display']}排名功能已设置为: {action_name}"
-    )
+@sv_zzz_rank.on_fullmatch(
+    (
+        "显示排名",
+        "隐藏排名",
+        "显示深渊排名",
+        "隐藏深渊排名",
+        "显示危局排名",
+        "隐藏危局排名",
+        "显示临界排名",
+        "隐藏临界排名",
+        "显示式舆排名",
+        "隐藏式舆排名",
+        "显示危局强袭战排名",
+        "隐藏危局强袭战排名",
+        "显示临界推演排名",
+        "隐藏临界推演排名",
+    ),
+    block=True,
+)
+async def switch_user_rank_fullmatch(bot: Bot, ev: Event):
+    await _switch_user_rank_by_msg(bot, ev, ev.command)
 
 
 @sv_zzz_rank_admin.on_prefix(("开启群", "开启群内", "关闭群", "关闭群内"))
 async def switch_group_rank(bot: Bot, ev: Event):
-    msg = f"{ev.command}{ev.text}".strip()
-    if "排名" not in msg:
-        return
+    await _switch_group_rank_by_msg(bot, ev, f"{ev.command}{ev.text}")
 
-    group_id = _get_group_id(ev)
-    if not group_id:
-        return await bot.send("请在群聊中使用该命令！")
 
-    action = _parse_switch_action(msg)
-    if action is None:
-        return await bot.send('请输入"开启"或"关闭"来设置群内排名功能')
-
-    rank_type = _parse_rank_type(msg, default="ALL")
-    if rank_type is None:
-        return
-
-    set_group_enable(group_id, rank_type, action)
-    action_name = "开启" if action else "关闭"
-    await bot.send(
-        f"当前群{RANK_INFO[rank_type]['display']}排名功能已设置为: {action_name}"
-    )
+@sv_zzz_rank_admin.on_fullmatch(
+    (
+        "开启群排名",
+        "关闭群排名",
+        "开启群深渊排名",
+        "关闭群深渊排名",
+        "开启群危局排名",
+        "关闭群危局排名",
+        "开启群临界排名",
+        "关闭群临界排名",
+    ),
+    block=True,
+)
+async def switch_group_rank_fullmatch(bot: Bot, ev: Event):
+    await _switch_group_rank_by_msg(bot, ev, ev.command)
 
 
 @sv_zzz_rank_admin.on_prefix(("重置", "清空"))
 async def reset_group_rank(bot: Bot, ev: Event):
-    msg = f"{ev.command}{ev.text}".strip()
-    if "排名" not in msg:
-        return
+    await _reset_group_rank_by_msg(bot, ev, f"{ev.command}{ev.text}")
 
-    group_id = _get_group_id(ev)
-    if not group_id:
-        return await bot.send("请在群聊中使用该命令！")
 
-    rank_type = _parse_rank_type(msg, default="ALL")
-    if rank_type is None:
-        return
-
-    reset_records(group_id, rank_type)
-    await bot.send(f"清除{RANK_INFO[rank_type]['display']}排名成功！")
+@sv_zzz_rank_admin.on_fullmatch(
+    (
+        "重置排名",
+        "清空排名",
+        "重置深渊排名",
+        "清空深渊排名",
+        "重置危局排名",
+        "清空危局排名",
+        "重置临界排名",
+        "清空临界排名",
+    ),
+    block=True,
+)
+async def reset_group_rank_fullmatch(bot: Bot, ev: Event):
+    await _reset_group_rank_by_msg(bot, ev, ev.command)

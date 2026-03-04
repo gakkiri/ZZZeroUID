@@ -1,10 +1,10 @@
 {
   "绑定账号": {
-    "desc": "在执行查询之前请绑定账号",
+    "desc": "执行查询前请先绑定 UID",
     "data": [
       {
         "name": "绑定UID",
-        "desc": "绑定自己的账户",
+        "desc": "绑定绝区零 UID",
         "eg": "绑定UID100740568",
         "need_ck": false,
         "need_sk": false,
@@ -12,15 +12,15 @@
       },
       {
         "name": "切换UID",
-        "desc": "切换绑定的账户",
+        "desc": "切换当前使用的 UID",
         "eg": "切换UID100740568",
-        "need_ck": true,
+        "need_ck": false,
         "need_sk": false,
         "need_admin": false
       },
       {
         "name": "删除UID",
-        "desc": "解除绑定",
+        "desc": "删除已绑定 UID",
         "eg": "删除UID100740568",
         "need_ck": false,
         "need_sk": false,
@@ -29,19 +29,19 @@
     ]
   },
   "信息查询": {
-    "desc": "在执行查询之前请绑定账号",
+    "desc": "基础信息与挑战战绩",
     "data": [
       {
         "name": "便签",
-        "desc": "获取自己的每日状态",
-        "eg": "mr",
+        "desc": "查询实时便笺与体力信息",
+        "eg": "mr / 便签",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
         "name": "查询",
-        "desc": "查询基本信息",
+        "desc": "查询账号基础信息总览",
         "eg": "查询",
         "need_ck": true,
         "need_sk": false,
@@ -49,40 +49,24 @@
       },
       {
         "name": "式舆防卫战",
-        "desc": "查询式舆防卫战信息",
-        "eg": "深渊",
-        "need_ck": true,
-        "need_sk": false,
-        "need_admin": false
-      },
-      {
-        "name": "上期式舆防卫战",
-        "desc": "查询上期式舆防卫战信息",
-        "eg": "上期深渊",
-        "need_ck": true,
-        "need_sk": false,
-        "need_admin": false
-      },
-      {
-        "name": "临界推演",
-        "desc": "查询临界推演信息",
-        "eg": "临界推演",
+        "desc": "查询本期/上期式舆防卫战",
+        "eg": "深渊 / 上期深渊 / 完整深渊",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
         "name": "危局强袭战",
-        "desc": "查询危局强袭战信息",
-        "eg": "强袭战",
+        "desc": "查询本期/上期危局强袭战",
+        "eg": "强袭战 / 上期强袭战",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
-        "name": "上期危局强袭战",
-        "desc": "查询上期危局强袭战信息",
-        "eg": "上期强袭战",
+        "name": "临界推演",
+        "desc": "查询临界推演战斗信息",
+        "eg": "临界推演 / 临界",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
@@ -97,36 +81,219 @@
       },
       {
         "name": "练度统计",
-        "desc": "查询练度统计一览",
-        "eg": "练度统计",
+        "desc": "查看角色练度统计与列表",
+        "eg": "练度统计 / 角色列表",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
         "name": "绳网月报",
-        "desc": "查询本月绳网收入",
-        "eg": "月历",
+        "desc": "查询绳网月报",
+        "eg": "绳网月报 / 月历",
         "need_ck": true,
         "need_sk": true,
+        "need_admin": false
+      },
+      {
+        "name": "日历",
+        "desc": "查询当前活动日历",
+        "eg": "日历 / cal",
+        "need_ck": false,
+        "need_sk": false,
         "need_admin": false
       }
     ]
   },
-  "抽卡记录": {
-    "desc": "欧菲鉴定器",
+  "群排行榜": {
+    "desc": "群内排名与显示控制",
     "data": [
       {
-        "name": "刷新抽卡记录",
-        "desc": "绑定账户后可直接刷新抽卡记录",
-        "eg": "刷新抽卡记录",
+        "name": "式舆排名",
+        "desc": "查看式舆防卫战群排名",
+        "eg": "深渊排名",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "强袭排名",
+        "desc": "查看危局强袭战群排名",
+        "eg": "危局排名",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "临界排名",
+        "desc": "查看临界推演群排名",
+        "eg": "临界排名",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "显示/隐藏排名",
+        "desc": "设置自己是否出现在群排名中",
+        "eg": "显示深渊排名 / 隐藏危局排名",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "群排名开关",
+        "desc": "开启或关闭群内排名功能",
+        "eg": "开启群深渊排名 / 关闭群危局排名",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "重置排名",
+        "desc": "清空指定排名数据",
+        "eg": "重置深渊排名 / 清空临界排名",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      }
+    ]
+  },
+  "挑战提醒": {
+    "desc": "式舆/危局提醒订阅与阈值设置",
+    "data": [
+      {
+        "name": "开启挑战提醒",
+        "desc": "开启或关闭个人挑战提醒",
+        "eg": "开启挑战提醒 / 关闭挑战提醒",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "设置式舆阈值",
+        "desc": "设置个人式舆防卫战提醒阈值",
+        "eg": "设置深渊阈值6",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "设置危局阈值",
+        "desc": "设置个人危局强袭战提醒阈值",
+        "eg": "设置危局阈值9",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "个人提醒时间",
+        "desc": "设置或查看个人提醒时间",
+        "eg": "设置个人提醒时间每日20时 / 个人提醒时间",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "重置个人提醒时间",
+        "desc": "重置回全局默认提醒时间",
+        "eg": "重置个人提醒时间",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "查询挑战状态",
+        "desc": "按当前阈值检查式舆/危局状态",
+        "eg": "查询挑战状态",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "全局挑战提醒",
+        "desc": "开启或关闭全局挑战提醒",
+        "eg": "开启全局挑战提醒 / 关闭全局挑战提醒",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "设置全局提醒",
+        "desc": "设置全局提醒时间与阈值",
+        "eg": "设置全局提醒时间每周六20时",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "全局提醒时间",
+        "desc": "查看当前全局提醒时间",
+        "eg": "全局提醒时间",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      }
+    ]
+  },
+  "设备绑定": {
+    "desc": "米游社接口设备参数绑定",
+    "data": [
+      {
+        "name": "绑定设备帮助",
+        "desc": "查看设备绑定格式与说明",
+        "eg": "绑定设备帮助",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
       },
       {
+        "name": "绑定设备",
+        "desc": "为当前 UID 绑定 device_id/device_fp",
+        "eg": "绑定设备 {\"device_id\":\"...\",\"device_fp\":\"...\"}",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "解绑设备",
+        "desc": "解绑当前 UID 的设备信息",
+        "eg": "解绑设备",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "设置默认设备",
+        "desc": "设置全局默认设备参数",
+        "eg": "设置默认设备 {\"device_id\":\"...\",\"device_fp\":\"...\"}",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      }
+    ]
+  },
+  "抽卡记录": {
+    "desc": "抽卡记录查询与刷新",
+    "data": [
+      {
+        "name": "刷新抽卡记录",
+        "desc": "增量刷新抽卡记录",
+        "eg": "刷新抽卡记录",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "全量刷新抽卡记录",
+        "desc": "全量刷新抽卡记录",
+        "eg": "全量刷新抽卡记录",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
         "name": "抽卡记录",
-        "desc": "查询自己的抽卡记录",
+        "desc": "查看抽卡统计与记录",
         "eg": "抽卡记录",
         "need_ck": true,
         "need_sk": false,
@@ -134,34 +301,119 @@
       }
     ]
   },
-  "面板服务": {
-    "desc": "查看自己单个角色的面板",
+  "卡池与活动": {
+    "desc": "卡池历史与活动信息",
     "data": [
       {
-        "name": "刷新面板",
-        "desc": "刷新面板信息",
-        "eg": "刷新面板",
+        "name": "当前卡池",
+        "desc": "查询当前活动卡池",
+        "eg": "卡池 / 当前卡池 / 本期卡池",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
       },
       {
+        "name": "版本卡池",
+        "desc": "查询指定版本卡池",
+        "eg": "2.6卡池 / 2.6上半卡池",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "复刻记录",
+        "desc": "查询复刻统计或单角色/音擎历史",
+        "eg": "五星角色复刻记录 / 艾莲复刻记录",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      }
+    ]
+  },
+  "面板服务": {
+    "desc": "角色面板与伤害面板",
+    "data": [
+      {
+        "name": "刷新面板",
+        "desc": "刷新角色面板信息",
+        "eg": "刷新面板",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
         "name": "查询[角色]",
-        "desc": "查询相应角色面板",
-        "eg": "查询露西",
+        "desc": "查询角色面板",
+        "eg": "查询露西 / 露西面板",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "角色伤害",
+        "desc": "查询角色伤害面板，可加序号",
+        "eg": "露西伤害 / 露西伤害3",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       }
     ]
   },
-  "攻略相关": {
-    "desc": "一些有用没用的杂图",
+  "图鉴攻略": {
+    "desc": "图鉴与攻略查询",
     "data": [
       {
+        "name": "角色图鉴",
+        "desc": "查询角色图鉴",
+        "eg": "角色图鉴露西",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
         "name": "角色攻略",
-        "desc": "查询角色攻略",
-        "eg": "角色攻略",
+        "desc": "查询角色攻略图",
+        "eg": "角色攻略露西 / 露西攻略",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "音擎攻略",
+        "desc": "查询音擎信息与效果",
+        "eg": "音擎攻略硫磺石",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "驱动盘",
+        "desc": "查询驱动盘二件套/四件套",
+        "eg": "驱动盘啄木鸟电音",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "突破材料",
+        "desc": "查询角色突破材料",
+        "eg": "突破材料露西",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "武器",
+        "desc": "武器前缀快捷查询音擎",
+        "eg": "武器硫磺石",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "邦布",
+        "desc": "查询邦布图鉴",
+        "eg": "邦布招财布",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
@@ -169,19 +421,27 @@
     ]
   },
   "其他服务": {
-    "desc": "杂项服务",
+    "desc": "社区与通用服务",
     "data": [
       {
         "name": "签到",
-        "desc": "进行一次社区签到",
+        "desc": "执行一次社区签到",
         "eg": "签到",
-        "need_ck": false,
+        "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
+        "name": "全部重签",
+        "desc": "执行全量自动签到任务",
+        "eg": "全部重签",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
         "name": "兑换码",
-        "desc": "查询可用的前瞻兑换码",
+        "desc": "查询可用前瞻兑换码",
         "eg": "兑换码",
         "need_ck": false,
         "need_sk": false,
@@ -191,6 +451,22 @@
         "name": "清空公告红点",
         "desc": "清空游戏内公告红点",
         "eg": "清空公告红点",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "开启自动清红",
+        "desc": "开启或关闭自动清红",
+        "eg": "开启自动清红 / 关闭自动清红",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "帮助",
+        "desc": "查看全部指令帮助",
+        "eg": "帮助",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
@@ -198,39 +474,60 @@
     ]
   },
   "个人服务": {
-    "desc": "该配置项仅针对个人使用",
+    "desc": "个人开关与阈值设置",
     "data": [
       {
-        "name": "开启体力推送",
-        "desc": "是否开启体力推送",
-        "eg": "开启体力推送",
-        "need_ck": false,
-        "need_sk": false,
-        "need_admin": false
-      },
-      {
-        "name": "设置体力阈值",
-        "desc": "超过阈值才会推送体力信息",
-        "eg": "设置体力阈值160",
-        "need_ck": false,
-        "need_sk": false,
-        "need_admin": false
-      },
-      {
-        "name": "开启自动签到",
-        "desc": "开启每天的自动签到功能",
-        "eg": "开启自动签到",
+        "name": "开启推送",
+        "desc": "推送总开关",
+        "eg": "开启推送 / 关闭推送",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
-        "name": "开启自动清红",
-        "desc": "每两小时自动清除一次游戏内公告红点",
-        "eg": "开启自动清红",
-        "need_ck": false,
+        "name": "开启体力推送",
+        "desc": "开启或关闭体力推送",
+        "eg": "开启体力推送 / 关闭体力推送",
+        "need_ck": true,
         "need_sk": false,
         "need_admin": false
+      },
+      {
+        "name": "设置体力阈值",
+        "desc": "设置体力提醒阈值",
+        "eg": "设置体力阈值160",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "开启自动签到",
+        "desc": "开启或关闭每日自动签到",
+        "eg": "开启自动签到 / 关闭自动签到",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      }
+    ]
+  },
+  "管理员工具": {
+    "desc": "仅管理员可用",
+    "data": [
+      {
+        "name": "强制推送体力提醒",
+        "desc": "立即执行一次体力推送任务",
+        "eg": "强制推送体力提醒",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "下载全部资源",
+        "desc": "下载并补齐插件缺失资源",
+        "eg": "下载全部资源",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
       }
     ]
   }

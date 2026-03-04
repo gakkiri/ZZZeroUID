@@ -1,0 +1,139 @@
+.card {
+  margin: 0 1em;
+  .user-info {
+    margin: 0 1em;
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    background: url('./images/status.png') no-repeat center center;
+    background-size: 110% 160%;
+    aspect-ratio: 2.4;
+    overflow: hidden;
+    margin: 0 1em;
+    margin-bottom: 1.5em;
+    padding-top: 4em;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-bottom: 3.5em;
+    justify-content: space-around;
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .value {
+        font-size: 1.8em;
+      }
+      .label {
+        font-size: 0.95em;
+        color: #e2e2e2;
+      }
+    }
+  }
+  .list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+    padding: 0.5em 3em;
+    margin-bottom: 1.5em;
+    .item {
+      width: 100%;
+      position: relative;
+      > * {
+        position: inherit;
+        z-index: 1;
+      }
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0.2em;
+        left: -0.2em;
+        width: 100%;
+        height: 100%;
+        background: rgb(138, 51, 183);
+        z-index: 0;
+      }
+      .rank {
+        position: absolute;
+        top: 0.2em;
+        left: 0.1em;
+        width: 1.5em;
+        color: white;
+        z-index: 2;
+      }
+      &.rankS {
+        &::after {
+          background: rgb(230, 119, 51);
+        }
+      }
+      &.rankB {
+        &::after {
+          background: rgb(93, 183, 249);
+        }
+      }
+      .image {
+        width: 100%;
+        aspect-ratio: 0.8;
+        background-color: #e2e2e2;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
+        }
+      }
+      .c-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgb(0, 0, 0);
+        color: white;
+        display: flex;
+        text-align: center;
+        .ranks {
+          background: rgb(117, 117, 117);
+          padding: 0 0.2em;
+          &.r1 {
+            background: rgb(58, 116, 43);
+          }
+          &.r2 {
+            background: rgb(61, 132, 214);
+          }
+          &.r3 {
+            background: rgb(223, 118, 118);
+          }
+          &.r4 {
+            background: rgb(51, 54, 161);
+          }
+          &.r5 {
+            background: rgb(102, 127, 19);
+          }
+          &.r6 {
+            background: rgb(218, 48, 32);
+          }
+        }
+        .level {
+          flex-grow: 1;
+          flex-shrink: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-align: center;
+        }
+      }
+      .element-icon {
+        position: absolute;
+        top: 0.2em;
+        right: 0.1em;
+        width: 1.6em;
+        background-color: #000;
+        border-radius: 50%;
+        border: solid 0.1em #000;
+        color: white;
+        z-index: 2;
+      }
+    }
+  }
+}

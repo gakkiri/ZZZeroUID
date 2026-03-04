@@ -6,6 +6,7 @@ from gsuid_core.models import Event
 from .draw_void import draw_void_img
 from ..utils.uid import get_uid
 from ..utils.hint import BIND_UID_HINT
+from ..utils.rank_service import refresh_rank_cache_by_type
 
 sv_get_mem = SV("zzz查询临界推演")
 
@@ -20,6 +21,8 @@ async def send_mem_info(bot: Bot, ev: Event):
     logger.info(f"[临界推演] UID: {uid}")
     if not uid:
         return await bot.send(BIND_UID_HINT)
+
+    await refresh_rank_cache_by_type("VOID", uid, ev)
 
     im = await draw_void_img(uid, ev)
     await bot.send(im)

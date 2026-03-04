@@ -1,0 +1,63 @@
+{{extend defaultLayout}}
+
+{{block 'css'}}
+<link rel="stylesheet" href="{{@sys.currentPath}}/index.css">
+{{/block}}
+
+{{block 'main'}}
+<div class="card">
+  {{include sys.playerInfo}}
+  {{each data item i}}
+  <div class="title t{{((i+1) / 2).toFixed(0)}}">
+    <div class="info">
+      <div class="type">
+        <div class="label">{{item.name}}</div>
+        <div class="status">已<span class="value">{{item.lastFive}}</span>抽未出S级</div>
+      </div>
+      <div class="time">{{item.timeRange}}</div>
+      <div class="analysis">
+        <div class="item">
+          <div class="value">{{item.avgFive}}</div>
+          <div class="label">平均出金</div>
+        </div>
+        <div class="item">
+          <div class="value">{{item.avgUp}}</div>
+          <div class="label">平均UP</div>
+        </div>
+        <div class="item">
+          <div class="value">{{item.totalCount}}</div>
+          <div class="label">抽卡总数</div>
+        </div>
+        {{if (item.name === '音擎频段' || item.name === '音擎回响' || item.name === '独家频段' || item.name === '独家重映')}}
+          <div class="item">
+          <div class="value">{{item.noWai}}</div>
+          <div class="label">不歪率</div>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="comment e{{item.emoji}}">
+      <div class="icon"></div>
+      <div class="label">{{item.tag}}</div>
+    </div>
+  </div>
+  {{if item.list.length === 0}}
+  <div style="margin: 1em auto; text-align: center;">暂无数据</div>
+  {{/if}}
+  <div class="list">
+    {{each item.list inv j}}
+    <div class="item rankS {{inv.isUp && 'up'}}">
+      <div class="rank rank-icon s"></div>
+      <div class="image">
+        <img src="{{inv.square_icon}}" alt="">
+      </div>
+      <div class="count" style="color: {{inv?.color}};">{{inv?.totalCount}}抽</div>
+    </div>
+    {{/each}}
+  </div>
+
+
+  {{/each}}
+
+</div>
+{{/block}}

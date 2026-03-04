@@ -5,6 +5,7 @@ from gsuid_core.models import Event
 
 from ..utils.uid import get_uid
 from ..utils.hint import BIND_UID_HINT
+from ..utils.rank_service import refresh_rank_cache_by_type
 from .draw_challenge import draw_challenge_img
 
 sv_get_challenge = SV("zzz查询深渊")
@@ -46,6 +47,9 @@ async def send_abyss_info(bot: Bot, ev: Event):
         is_full = True
     else:
         is_full = False
+
+    if schedule_type == 1:
+        await refresh_rank_cache_by_type("ABYSS", uid, ev)
 
     im = await draw_challenge_img(uid, ev, schedule_type, is_full)
     await bot.send(im)

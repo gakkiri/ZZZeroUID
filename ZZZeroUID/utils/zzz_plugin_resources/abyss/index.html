@@ -1,0 +1,195 @@
+{{extend defaultLayout}}
+
+{{block 'css'}}
+<link rel="stylesheet" href="{{@sys.currentPath}}/index.css">
+{{/block}}
+
+{{block 'main'}}
+<div class="card">
+  {{include sys.playerInfo}}
+
+  <div class="tips">
+    <p>统计周期 {{abyss.formatTime(abyss.hadal_begin_time)}} - {{abyss.formatTime(abyss.hadal_end_time)}}</p>
+  </div>
+
+  {{set fifth = abyss.fitfh_layer_detail?.layer_challenge_info_list}}
+  {{if fifth && abyss.brief}}
+  <!-- 第五层 -->
+  <div class="layer-container">
+    <div class="layer-header">
+      <div class="header-top">
+        <div class="title-section">
+          <h3 class="layer-title">剧变节点第五防线</h3>
+          <div class="total-score-section">
+            {{if abyss.brief.score === 150000}}
+              <div class="max-score-icon score150000"></div>
+            {{else}}
+              <div class="total-score">{{abyss.brief.score}}</div>
+            {{/if}}
+            
+            <div class="rank-container">
+              <div class="rank-icon bg{{abyss.rankBg}}"></div>
+              <div class="rank-text">{{(abyss.brief.rank_percent / 100).toFixed(2)}}%</div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-icon rating-icon {{abyss.brief.rating.replace('+', 'P')}}"></div>
+      </div>
+      <div class="header-bottom">
+        <div class="challenge-time">
+          通关时间：{{abyss.formatTime(abyss.brief.challenge_time)}}
+        </div>
+        <div class="total-battle-time">
+          总通关时长：{{abyss.formatBattleTime(abyss.brief.battle_time)}}
+        </div>
+      </div>
+    </div>
+
+    <!-- 每间出战阵容 -->
+    <div class="layer-content">
+      {{each fifth item i}}
+      <div class="item-card">
+        <div class="item-rating rating-icon {{item.rating}}"></div>
+        
+        <div class="cover">
+          <img src="{{item.monster_pic}}">
+        </div>
+        <div class="content">
+          <div class="team team-icon team0{{i + 1}}"></div>
+          <div class="value">
+            {{if item.score === 50000}}
+              <div class="max-score-icon score50000"></div>
+            {{else}}
+              <div class="val">{{item.score}}</div>
+            {{/if}}
+          </div>
+          <div class="info">
+            <div class="time">
+              通关时长：{{abyss.formatBattleTime(item.battle_time)}}
+            </div>
+            <div class="buffer">
+              增益：{{item.buffer.title}}
+            </div>
+          </div>
+          <div class="list">
+            <!-- 角色 -->
+            <% for(let i=0 ; i < 3 ; i++) { %>
+              {{if item.avatar_list?.[i]}}
+              <div class="item char">
+                {{if item.avatar_list[i].rank}}
+                <div class="count">{{item.avatar_list[i].rank}}</div>
+                {{/if}}
+                <div class="rank_disp">
+                  <div class="rank rank-icon {{item.avatar_list[i].rarity}}"></div>
+                </div>
+                <div class="image">
+                  <img src="{{item.avatar_list[i].role_square_url}}" alt="">
+                </div>
+              </div>
+              {{else}}
+              <div class="item char"></div>
+              {{/if}}
+            <% } %>
+            <!-- 邦布 -->
+            {{if item.buddy}}
+            <div class="item bangboo">
+              <div class="rank_disp">
+                <div class="rank rank-icon {{item.buddy.rarity}}"></div>
+              </div>
+              <div class="image">
+                <img src="{{item.buddy.bangboo_rectangle_url}}" alt="">
+              </div>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
+  <!-- 第1-4层渲染 -->
+  {{set layerIndexs = [4,3,2,1]}}
+  {{each layerIndexs layerIdx}}
+    {{set layerName = ['first', 'second', 'third', 'fourth'][layerIdx-1]}}
+    {{set layerNameZH = ['一', '二', '三', '四'][layerIdx-1]}}
+    {{set layerData = abyss[`${layerName}_layer_detail`]}}
+    {{if layerData && layerData.layer_challenge_info_list}}
+    <div class="layer-container lower-layer-container">
+      <div class="layer-header lower-header">
+        <div class="rating-icon {{layerData.rating}}"></div>
+        <div class="header-top">
+          <div class="title-section">
+            <h3 class="layer-title">剧变节点第{{layerNameZH}}防线</h3>
+          </div>
+        </div>
+        <div class="header-bottom">
+          <div class="challenge-time">
+            通关时间：{{abyss.formatTime(layerData.challenge_time)}}
+          </div>
+        </div>
+      </div>
+
+      <!-- 出战阵容 -->
+      <div class="lower-layer-content">
+        {{each layerData.layer_challenge_info_list item i}}
+        <div class="lower-item-card">
+          <div class="content">
+            <div class="team team-icon team0{{i + 1}}"></div>
+            <div class="info">
+              <div class="time">
+                通关时长：{{abyss.formatBattleTime(item.battle_time)}}
+              </div>
+            </div>
+            <div class="list">
+              <!-- 角色 -->
+              <% for(let j=0 ; j < 3 ; j++) { %>
+                {{if item.avatar_list?.[j]}}
+                <div class="item char">
+                  {{if item.avatar_list[j].rank}}
+                  <div class="count">{{item.avatar_list[j].rank}}</div>
+                  {{/if}}
+                  <div class="rank_disp">
+                    <div class="rank rank-icon {{item.avatar_list[j].rarity}}"></div>
+                  </div>
+                  <div class="image">
+                    <img src="{{item.avatar_list[j].role_square_url}}" alt="">
+                  </div>
+                </div>
+                {{else}}
+                <div class="item char"></div>
+                {{/if}}
+              <% } %>
+              <!-- 邦布 -->
+              {{if item.buddy}}
+              <div class="item bangboo">
+                <div class="rank_disp">
+                  <div class="rank rank-icon {{item.buddy.rarity}}"></div>
+                </div>
+                <div class="image">
+                  <img src="{{item.buddy.bangboo_rectangle_url}}" alt="">
+                </div>
+              </div>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+  {{/each}}
+
+  <div class="item-card">
+    <ul class="notes">
+      {{if userRankAllowed !== null}}
+        <li>当前式舆防卫战排名状态：{{userRankAllowed ? '显示' : '隐藏'}}，可通过<span class="command">%显示/隐藏深渊排名</span>切换</li>
+      {{else}}
+        <li>请在群内查询<span class="command">%式舆防卫战</span>，以参与对应群的式舆防卫战排名</li>
+      {{/if}}
+    </ul>
+  </div>
+
+</div>
+{{/block}}

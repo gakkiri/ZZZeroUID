@@ -43,6 +43,7 @@ partner_id_to_data = {}
 WeaponId2DataFile = f"WeaponId2Data_{version}.json"
 PartnerId2DataFile = f"PartnerId2Data_{version}.json"
 EquipId2DataFile = f"EquipId2Data_{version}.json"
+BangbooId2DataFile = f"BangbooId2Data_{version}.json"
 PartnerId2SkillParamFile = f"PartnerId2SkillParam_{version}.json"
 # GachaId2SpriteIdFile = f'GachaId2SpriteId_{version}.json'
 

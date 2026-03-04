@@ -22,15 +22,15 @@ PRIV_MAP = {
 @sv_self_config.on_prefix(("设置"))
 async def send_config_ev(bot: Bot, ev: Event):
     logger.info("[绝区零] 开始执行[设置阈值信息]")
-    uid = await GsBind.get_uid_by_game(ev.user_id, ev.bot_id, "zzz")
-
-    if uid is None:
-        return await bot.send(UID_HINT)
-    cookie = await GsUser.get_user_cookie_by_uid(uid, "zzz")
-    if cookie is None:
-        return await bot.send(CK_HINT)
-
     config_name = "".join(re.findall("[\u4e00-\u9fa5]", ev.text.replace("阈值", "")))
+
+    if config_name not in PRIV_MAP:
+        if any(k in ev.text for k in ("体力", "推送", "自动签到")):
+            return await bot.send(f"🔨 [绝区零服务]\n❌ 请输入正确的功能名称...\n🚩 例如: {P}设置体力阈值200")
+        return
+    if PRIV_MAP[config_name] is None:
+        return await bot.send(f"🔨 [绝区零服务]\n❌ 请输入正确的功能名称...\n🚩 例如: {P}设置体力阈值200")
+
     value = re.findall(r"\d+", ev.text)
     value = value[0] if value else None
 
@@ -39,8 +39,12 @@ async def send_config_ev(bot: Bot, ev: Event):
 
     logger.info(f"[设置阈值信息] func: {config_name}, value: {value}")
 
-    if config_name not in PRIV_MAP or (config_name in PRIV_MAP and PRIV_MAP[config_name] is None):
-        return await bot.send(f"🔨 [绝区零服务]\n❌ 请输入正确的功能名称...\n🚩 例如: {P}设置体力阈值200")
+    uid = await GsBind.get_uid_by_game(ev.user_id, ev.bot_id, "zzz")
+    if uid is None:
+        return await bot.send(UID_HINT)
+    cookie = await GsUser.get_user_cookie_by_uid(uid, "zzz")
+    if cookie is None:
+        return await bot.send(CK_HINT)
 
     datas = await gs_subscribe.get_subscribe(
         f"[绝区零] {config_name}",
@@ -81,7 +85,9 @@ async def open_switch_func(bot: Bot, ev: Event):
         config_name = config_name.replace("推送", "")
 
     if config_name not in PRIV_MAP:
-        return await bot.send(f"🔨 [绝区零服务]\n❌ 请输入正确的功能名称...\n🚩 例如: {P}开启自动签到")
+        if any(k in config_name for k in ("体力", "推送", "自动签到")):
+            return await bot.send(f"🔨 [绝区零服务]\n❌ 请输入正确的功能名称...\n🚩 例如: {P}开启自动签到")
+        return
 
     logger.info(f"[绝区零服务] [{user_id}]尝试[{ev.command[2:]}]了[{ev.text}]功能")
 

@@ -6,6 +6,7 @@ from gsuid_core.models import Event
 from .draw_mem import draw_mem_img
 from ..utils.uid import get_uid
 from ..utils.hint import BIND_UID_HINT
+from ..utils.rank_service import refresh_rank_cache_by_type
 
 sv_get_mem = SV("zzz查询危局强袭战")
 
@@ -32,6 +33,9 @@ async def send_mem_info(bot: Bot, ev: Event):
         schedule_type = 2
     else:
         schedule_type = 1
+
+    if schedule_type == 1:
+        await refresh_rank_cache_by_type("DEADLY", uid, ev)
 
     im = await draw_mem_img(uid, ev, schedule_type)
     await bot.send(im)

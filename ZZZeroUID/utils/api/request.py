@@ -9,6 +9,7 @@ from gsuid_core.utils.api.mys_api import _MysApi
 from gsuid_core.utils.api.mys.models import MysGame
 from gsuid_core.utils.database.models import GsUser
 
+from ..device_store import get_device
 from .api import (
     ANN_API,
     ZZZ_API,
@@ -309,14 +310,19 @@ class ZZZApi(_MysApi):
             return -51
         _header = deepcopy(self.ZZZ_HEADER)
 
-        device_id = await self.get_user_device_id(
-            uid,
-            "zzz",
-        )
-        fp = await self.get_user_fp(
-            uid,
-            "zzz",
-        )
+        device = get_device(uid, use_default=True)
+        if device:
+            device_id = device.get("device_id")
+            fp = device.get("device_fp")
+        else:
+            device_id = await self.get_user_device_id(
+                uid,
+                "zzz",
+            )
+            fp = await self.get_user_fp(
+                uid,
+                "zzz",
+            )
 
         if fp is not None:
             _header["x-rpc-device_fp"] = fp

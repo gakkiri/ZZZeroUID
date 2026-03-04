@@ -13,7 +13,6 @@ sv_user_info = SV("zzz用户信息")
     (
         "绑定uid",
         "绑定UID",
-        "绑定",
     ),
     block=True,
 )
@@ -43,7 +42,6 @@ async def bind_uid(bot: Bot, ev: Event):
     (
         "切换uid",
         "切换UID",
-        "切换",
     ),
     block=True,
 )
@@ -77,9 +75,7 @@ async def switch_uid(bot: Bot, ev: Event):
         "删除uid",
         "解绑uid",
         "删除UID",
-        "解绑",
-        "删除UID",
-        "删除",
+        "解绑UID",
     ),
     block=True,
 )
